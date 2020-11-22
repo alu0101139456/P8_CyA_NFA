@@ -16,7 +16,10 @@
 #include <fstream>
 #include <string>
 
-
+/**
+ * @brief 
+ * 
+ */
 class Alphabet {
  private:
   Set alfa_;
@@ -30,8 +33,9 @@ class Alphabet {
   void InsertSymbol(char);
   void InsertAlphabetFromFile();
   void InsertAlphabetACII();
-  bool FindSymbol(char);
+  bool IsInAlphabeth(char);
   bool IsInAlphabeth(std::string);
+  
 
   std::string PrintAlphabet();
   

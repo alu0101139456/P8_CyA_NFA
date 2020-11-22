@@ -38,7 +38,7 @@ void Alphabet::InsertSymbol( char symbol) {
   alfa_.Insert((int)symbol);
 }
 
-bool Alphabet::FindSymbol(char symbol) {
+bool Alphabet::IsInAlphabeth(char symbol) {
   return alfa_.Find((int)symbol);
 }
 
@@ -57,6 +57,7 @@ bool Alphabet::IsInAlphabeth(std::string string_to_analize) {
     return false;
   }
 }
+
 
 Alphabet& Alphabet::operator=(const Alphabet& rhs) {
   alfa_ = rhs.alfa_;
