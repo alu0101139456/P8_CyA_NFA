@@ -13,6 +13,9 @@
 #include <iostream>
 #include <vector>
 
+typedef std::vector<std::pair<char,unsigned>> TransitionMap;
+
+
 class State {
  private:
   uint id_;
@@ -20,7 +23,7 @@ class State {
   char name_char_;
   bool acept_state_ = false;
   bool start_state_ = false;
-  std::vector<std::pair<char,unsigned>> transition_;
+  TransitionMap transition_;
 
  public:
   /**
@@ -96,6 +99,13 @@ class State {
    * @return uint 
    */
   uint Transition(char symbol) const;
+  /**
+   * @brief Return vector with all transitions of the symbol
+   * 
+   * @param symbol 
+   * @return TransitionMap 
+   */
+  TransitionMap TransitionsWith(char symbol) const;
 
   //GETTERS
   /**

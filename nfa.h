@@ -94,12 +94,29 @@ class Nfa {
 
  private:
   /**
+   * @brief Recursive funtion to search possibles path
+   * 
+   * @param it Iterator to state evaluated
+   * @param word Reference to string to analize
+   * @param i Index 
+   * @param acept_state Boolean param to get acept state 
+   */
+  void Analizer(std::set<State>::iterator&, std::string&, uint, bool&);
+  /**
    * @brief Used to check if the symbol exists in the alphabet
    * 
    * @return true 
    * @return false 
    */
   bool IsInAlphabet(char);
+  /**
+   * @brief Used to check if the string exists in the alphabet
+   * 
+   * @param string_to_analize 
+   * @return true 
+   * @return false 
+   */
+  bool IsInAlphabet(std::string);
   /**
    * @brief Debug for see the values of state
    * 
@@ -139,9 +156,10 @@ class Nfa {
   /**
    * @brief Search Pattern in String
    * @param StringToSearch
-   * @return std::vector<int> 
+   * @return true
+   * @return false
    */
-  std::vector<int> SearchPatternInString(std::string);
+  bool SearchPatternInString(std::string);
 
 };
 

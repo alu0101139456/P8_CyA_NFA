@@ -19,6 +19,7 @@ Nfa::Nfa(std::string name_make_nfa, std::string name_file_input, std::string nam
   file_input_.open(name_file_input);
   file_output_.open(name_file_output);
   ReadNfaFromFile();
+  ReadFromFileAndWrite();
 }
 
 void Nfa::InsertState(State new_state) {
@@ -34,22 +35,47 @@ transiciones que tiene y devuelve el estado al que debe transitar con ese simbol
 Si valor == -1 no encontro transicion y se reinicia el iterador al principio
 Si valor != -1 it se queda apuntando en el siguiente estado para esperar el 
 siguiente simbolo  */
-std::vector<int> Nfa::SearchPatternInString(std::string word) {
+// bool Nfa::SearchPatternInString(std::string word) {
+//   bool get_acept_state = false;
+//   uint new_id;
+//   std::set<State>::iterator it = Begin();
+//   //Recorremos la cadena completa
+//   for (size_t i = 0; i < word.size(); i++) {
+//     if (it->Transition(word[i]) == (uint)-1) {
+//       it = Begin();
+//     } else {
+//       // it = nfa_states_.find(State(new_id, ""));
+//       it++;
+//       get_acept_state = it->IsAceptState() || get_acept_state;
+//     }
+//   }
+//   return get_acept_state;
+// }
+
+bool Nfa::SearchPatternInString(std::string word) {
   bool get_acept_state = false;
-  uint new_id;
-  std::vector<int> mod;
+
   std::set<State>::iterator it = Begin();
-  //Recorremos la cadena completa
-  for (size_t i = 0; i < word.size(); i++) {
-    if ((new_id = it->Transition(word[i])) == (uint)-1) {
-      it = Begin();
-    } else {
-      it = nfa_states_.find(State(new_id, ""));
-      // get_acept_state = it->IsAceptState() || get_acept_state;
-      if(it->IsAceptState()) mod.push_back( i );
-    }
+  Analizer(it, word, 0, get_acept_state);
+  return get_acept_state;
+}
+
+void Nfa::Analizer(std::set<State>::iterator& it, std::string& word, uint i, bool& acept_state) {
+
+  if (i >= word.size()) {
+    if (it->IsAceptState())
+      acept_state = true;
+    return;
   }
-  return mod;
+  // bool path_uncompleted = true;
+
+  auto transitions = it->TransitionsWith(word[i]);
+  for (auto trans: transitions) {
+    it = nfa_states_.find(State(trans.second, ""));
+    Analizer(it, word, i, acept_state);
+  } 
+  
+  
 }
 
 
@@ -88,6 +114,11 @@ bool Nfa::IsInAlphabet(char symbol) {
   return alphabet_.IsInAlphabeth(symbol);
 }
 
+bool Nfa::IsInAlphabet(std::string string_to_analize) {
+  return alphabet_.IsInAlphabeth(string_to_analize);
+}
+
+
 
 
 
@@ -104,7 +135,7 @@ void Nfa::ReadNfaFromFile() {
       file_maker_ >> start_state;        
       for (uint i = 0; i < total_states; i++) {
         file_maker_ >> id_state >> acept_state >> number_transitions;
-        if(id_state == start_state) 
+        if (id_state == start_state) 
           start_state = true;
         else 
           start_state = false;
@@ -132,8 +163,13 @@ void Nfa::ReadFromFileAndWrite() {
   
   if (file_input_.is_open() && file_input_) {
     while (!file_input_.eof()) {
+      file_input_ >> aux;
       
-
+      if (IsInAlphabet(aux)) {
+        std::cout << aux << "--> SI" << std::endl;
+      } else {
+        std::cout << aux << "--> NO" << std::endl;
+      }
     }
   } 
   else {
@@ -141,15 +177,11 @@ void Nfa::ReadFromFileAndWrite() {
   }
 }
 
-// void PatternSearch::MakeDFA() {
-//   dfa_.SetAlphabet(alphabet_);
-//   dfa_.GenerateDfaWithPattern(pattern_);
-// }
 
 // std::string PatternSearch::SearhPattern(std::string string_to_analize) {
 //   temp_ = dfa_.SearchPatternInString(string_to_analize);
 //   std::string solution;
-//   if(temp_.size() < 1) {
+//   if (temp_.size() < 1) {
 //     solution = "[]";
 //     std::cout << solution;
 //   } else {
@@ -167,8 +199,8 @@ void Nfa::ReadFromFileAndWrite() {
 //Busca entre los estados el que tiene mismo nombre y devuelve el iterador
 std::set<State>::iterator Nfa::FindStateName(std::string& name_to_find){
   std::set<State>::iterator it;
-  for(it = nfa_states_.begin(); it != nfa_states_.end(); ++it) {
-    if(it->GetName() == name_to_find ) 
+  for (it = nfa_states_.begin(); it != nfa_states_.end(); ++it) {
+    if (it->GetName() == name_to_find ) 
       return it;
   }
   return it;
@@ -198,8 +230,8 @@ std::set<State>::iterator Nfa::End() {
 
 std::vector<std::string> Nfa::GetAceptStates() {
   std::vector<std::string> aux;
-  for(auto it=nfa_states_.begin() ; it != nfa_states_.end(); ++it) {
-    if(it->IsAceptState())
+  for (auto it=nfa_states_.begin() ; it != nfa_states_.end(); ++it) {
+    if (it->IsAceptState())
       aux.push_back("\""+it->GetName()+"\"");
   }
   return aux;

@@ -49,6 +49,16 @@ uint State::Transition(char symbol) const{
   return -1;
 }
 
+TransitionMap State::TransitionsWith(char symbol) const{
+  TransitionMap temporal;
+  for ( auto transition : transition_) {
+    if ( transition.first == symbol ){ 
+      temporal.push_back(transition);
+    }
+  }
+  return temporal;
+}
+
 
 State::State(const State& rhs) {
   this->id_= rhs.id_;
