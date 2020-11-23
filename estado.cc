@@ -29,8 +29,9 @@ void State::InsertTransition(std::pair<char,unsigned> new_transition) {
 
 void State::PrintTransitions() const {
   if (!transition_.empty()) {
+    // std::cout << GetId() << '\n';
     for (size_t i = 0; i < transition_.size(); i++) {
-      std::cout << GetId() << '\n';
+      
       std::cout << "Con: \"" << transition_[i].first << "\" a estado " << transition_[i].second << std::endl;
     }
   } else {

@@ -10,7 +10,7 @@
  */
 
 
-#include <set.h>
+#include "set.h"
 
 Set::Set() {
   max_of_elemts_ = bits_per_set_;

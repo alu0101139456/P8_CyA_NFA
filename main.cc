@@ -10,7 +10,12 @@
  */
 
 #include <iostream>
+#include "nfa.h"
 
 int main() {
-    std::cout << "Hello Easy C++ project!" << std::endl;
+    
+    Nfa nfa("input.nfa", "input.txt", "output.txt");
+
+
+
 }

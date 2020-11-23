@@ -34,8 +34,9 @@ std::string Alphabet::PrintAlphabet() {
   
 }
 
-void Alphabet::InsertSymbol( char symbol) {
-  alfa_.Insert((int)symbol);
+void Alphabet::InsertSymbol( int symbol) {
+
+  alfa_.Insert(symbol);
 }
 
 bool Alphabet::IsInAlphabeth(char symbol) {
