@@ -20,6 +20,11 @@ Nfa::Nfa(std::string name_make_nfa, std::string name_file_input, std::string nam
   file_output_.open(name_file_output);
   ReadNfaFromFile();
   ReadFromFileAndWrite();
+  if (SearchPatternInString("ab")) {
+    std::cout << "Aceptada" << std::endl;
+  } else {
+    std::cout << "No Aceptada" << std::endl;
+  }
 }
 
 void Nfa::InsertState(State new_state) {
@@ -54,7 +59,7 @@ siguiente simbolo  */
 
 bool Nfa::SearchPatternInString(std::string word) {
   bool get_acept_state = false;
-
+  word = "aababaaaababaaa";
   std::set<State>::iterator it = Begin();
   Analizer(it, word, 0, get_acept_state);
   return get_acept_state;
@@ -67,12 +72,12 @@ void Nfa::Analizer(std::set<State>::iterator& it, std::string& word, uint i, boo
       acept_state = true;
     return;
   }
-  // bool path_uncompleted = true;
 
   auto transitions = it->TransitionsWith(word[i]);
+  
   for (auto trans: transitions) {
     it = nfa_states_.find(State(trans.second, ""));
-    Analizer(it, word, i, acept_state);
+    Analizer(it, word, i+1, acept_state);
   } 
   
   
