@@ -59,7 +59,7 @@ siguiente simbolo  */
 
 bool Nfa::SearchPatternInString(std::string word) {
   bool get_acept_state = false;
-  word = "aababaaaababaaa";
+  word = "aababaaaababaa";
   std::set<State>::iterator it = Begin();
   Analizer(it, word, 0, get_acept_state);
   return get_acept_state;
