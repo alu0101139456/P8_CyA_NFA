@@ -7,7 +7,7 @@ INCLUDE	:= include
 LIB		:= lib
 
 LIBRARIES	:=
-EXECUTABLE	:= main
+EXECUTABLE	:= nfa_simulation
 
 
 all: $(EXECUTABLE) 
@@ -20,4 +20,4 @@ $(EXECUTABLE): ./*.cc
 	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) -L$(LIB) $^ -o $@ $(LIBRARIES)
 
 clean:
-	-rm main
+	-rm nfa_simulation

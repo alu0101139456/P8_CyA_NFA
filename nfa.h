@@ -25,6 +25,7 @@ class Nfa {
   std::ifstream file_maker_;
   std::ifstream file_input_;
   std::ofstream file_output_;
+  bool check_nfa_make_ = false;
 
  public:
   /**
@@ -82,15 +83,21 @@ class Nfa {
   /**
    * @brief Get the Start State object
    * 
-   * @return std::string 
+   * @return uint Return id of state
    */
-  std::string GetStartState();
+  uint GetStartState();
   /**
    * @brief Update the state remove the old and make new
    * 
    */
   void UpdateState(std::set<State>::iterator&,const State&);
-  
+  /**
+   * @brief Inicialize NFA
+   * @param File to make NFA
+   * @param File to read and find patterns
+   * @param File to put results
+   */
+  void InsertFiles(std::string,std::string, std::string);
 
  private:
   /**

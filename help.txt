@@ -1,0 +1,17 @@
+
+MODO DE EMPLEO:
+
+  ./nfa_simulation [INPUTFILE.nfa] [INPUTFILE.txt] [OUTPUT].txt 
+  ./nfa_simulation [INPUTFILE.nfa] [INPUTFILE.txt] DEFAULT NAME output.txt 
+  
+  Structure for reading and creating NFA files: 
+  
+      4                 --> Number of total states 
+      0                 --> Start state 
+      0 0 3 a 0 b 0 b 1 
+      1 0 2 a 2 b 2 
+      2 0 2 a 3 b 3 
+      3 1 0 
+      | | L> Number of transitions 
+      | L> Aceptation state 
+      L> Number of state;
