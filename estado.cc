@@ -52,7 +52,7 @@ uint State::Transition(char symbol) const{
 TransitionMap State::TransitionsWith(char symbol) const{
   TransitionMap temporal;
   for ( auto transition : transition_) {
-    if ( transition.first == symbol ){ 
+    if ( transition.first == symbol || transition.first == '~' ){ 
       temporal.push_back(transition);
     }
   }

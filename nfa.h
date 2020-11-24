@@ -168,5 +168,7 @@ class Nfa {
    */
   bool SearchPatternInString(std::string);
 
+  void PrintNfa();
+
 };
 

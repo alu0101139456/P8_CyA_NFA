@@ -55,20 +55,11 @@ void Nfa::Analizer(std::set<State>::iterator& it, std::string& word, uint i, boo
   auto transitions = it->TransitionsWith(word[i]);
   for (auto trans: transitions) {
     it = nfa_states_.find(State(trans.second, ""));
-    Analizer(it, word, i+1, acept_state);
+    if( trans.first == '~') {
+      Analizer(it, word, i, acept_state);
+    } else
+      Analizer(it, word, i+1, acept_state);
   }   
-}
-
-///////// DEBUGG AND TEST
-
-void Nfa::SeeWhat(State state_to_see) {
-  std::cout << "-----------------------------------------"<< std::endl;;
-  std::cout << "Estado con id: " << state_to_see.GetId() << '\n';
-  std::cout << "Estado de arranque: "<<state_to_see.IsStartState()<<"\n";
-  std::cout << "Estado de aceptación: "<<state_to_see.IsAceptState();
-  std::cout << "\nCon transiciones: ";
-  state_to_see.PrintTransitions();
-  
 }
 
 
@@ -96,7 +87,8 @@ bool Nfa::IsInAlphabet(std::string string_to_analize) {
 
 void Nfa::ReadNfaFromFile() {
   std::string aux;
-  bool acept_state;
+  bool acept_state = false;
+  bool start_s = false;
   uint id_state, total_states, start_state, number_transitions;
   if (file_maker_.is_open() && file_maker_) {
     while (!file_maker_.eof()) {
@@ -104,9 +96,11 @@ void Nfa::ReadNfaFromFile() {
       file_maker_ >> start_state;        
       for (uint i = 0; i < total_states; i++) {
         file_maker_ >> id_state >> acept_state >> number_transitions;
-        if (id_state == start_state) 
-          State estado_temporal(id_state, acept_state, true);
-        State estado_temporal(id_state, acept_state, false);
+        if (id_state == start_state)
+          start_s = true;
+        else
+          start_s = false; 
+        State estado_temporal(id_state, acept_state, start_s);
         for (uint i = 0; i < number_transitions; i++) {
           char symbol;
           uint next_id;
@@ -119,8 +113,8 @@ void Nfa::ReadNfaFromFile() {
       }
     }
     //std::cout <<"Alfabeto creado:" << alphabet_.PrintAlphabet() << std::endl;
-    std::cout << "Estado de arranque?" << GetStartState() << std::endl;
     check_nfa_make_ = true;
+    // PrintNfa();
   } 
   else {
     std::cerr << "Nombre de fichero para crear NFA erroneo. " << std::endl;
@@ -201,4 +195,25 @@ uint Nfa::GetStartState() {
      return it->GetId();
   }
   return -1;
+}
+
+void Nfa::PrintNfa() {
+  std::set<State>::iterator it;
+  for( it = Begin(); it != End() ; it++){
+    std::cout << it->GetId() << " ";
+    std::cout << it->IsStartState() << std::endl;
+  }
+}
+
+
+///////// DEBUGG AND TEST
+
+void Nfa::SeeWhat(State state_to_see) {
+  std::cout << "-----------------------------------------"<< std::endl;;
+  std::cout << "Estado con id: " << state_to_see.GetId() << '\n';
+  std::cout << "Estado de arranque: "<<state_to_see.IsStartState()<<"\n";
+  std::cout << "Estado de aceptación: "<<state_to_see.IsAceptState();
+  std::cout << "\nCon transiciones: ";
+  state_to_see.PrintTransitions();
+  
 }

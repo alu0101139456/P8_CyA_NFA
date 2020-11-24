@@ -1,9 +1,11 @@
-kdskakskkks--> NO
-abaabb--> NO
-aa--> NO
-abababbbbb--> SI
-yus1--> NO
-baa--> SI
-bbb--> SI
-abababababababababaa--> SI
-ababababababababaaaa--> NO
+abaabb --> SI
+aa --> NO
+abababbbbb --> NO
+bcccccb --> SI
+c --> SI
+b --> SI
+cb --> SI
+a --> NO
+cccccccb --> SI
+babababaa --> NO
+ababababababaaaa --> NO
